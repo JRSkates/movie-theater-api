@@ -89,4 +89,37 @@ describe("Users endpoint", () => {
         console.log(response.body)
         expect(response.status).toBe(404);
     })
+
+    it("PUT /users/:id/shows/:id", async () => {
+        const response = await request(app).put(`/users/1/shows/3`)
+        expect(response.status).toBe(200); 
+        expect(response.body.message).toBe("Show added to user");
+    })
+
+    it("PUT /users/:id/shows/:id 404 no", async () => {
+        const response = await request(app).put(`/users/1/shows/100`)
+        console.log(response.body)
+        expect(response.status).toBe(404); 
+        expect(response.body.message).toBe("Show not found");
+    })
 })
+
+describe("Shows endpoint", () => {
+    it("GET /shows", async () => {
+        const response = await request(app).get("/shows");
+        expect(response.status).toBe(200);
+        expect(response.body).toBeInstanceOf(Array);
+    })
+
+    it("GET /shows/:id", async () => {
+        const response = await request(app).get(`/shows/1`);
+        expect(response.status).toBe(200);
+        expect(response.body.title).toBe("Inception");
+    })
+
+    it("GET /shows/:id 404", async () => {
+        const response = await request(app).get(`/shows/100`);
+        expect(response.status).toBe(404);
+        expect(response.body.message).toBe("Show not found");
+    })
+});
