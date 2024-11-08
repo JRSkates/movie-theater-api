@@ -86,7 +86,7 @@ describe("Users endpoint", () => {
 
     it("GET /users/:id/shows 404", async () => {
         const response = await request(app).get(`/users/3/shows`);
-        console.log(response.body)
+        // console.log(response.body)
         expect(response.status).toBe(404);
     })
 
@@ -98,7 +98,7 @@ describe("Users endpoint", () => {
 
     it("PUT /users/:id/shows/:id 404 no", async () => {
         const response = await request(app).put(`/users/1/shows/100`)
-        console.log(response.body)
+        // console.log(response.body)
         expect(response.status).toBe(404); 
         expect(response.body.message).toBe("Show not found");
     })
@@ -121,5 +121,30 @@ describe("Shows endpoint", () => {
         const response = await request(app).get(`/shows/100`);
         expect(response.status).toBe(404);
         expect(response.body.message).toBe("Show not found");
+    })
+
+    it("GET /shows/:id/users", async () => {
+        const response = await request(app).get(`/shows/1/users`);
+        expect(response.status).toBe(200);
+        expect(response.body).toBeInstanceOf(Array);
+        expect(response.body[0].username).toBe("g.lucas@gmail.com");
+    })
+
+    it("GET /shows/:id/users 404", async () => {
+        const response = await request(app).get(`/shows/4/users`);
+        // console.log(response.body)
+        expect(response.status).toBe(404);
+        expect(response.body.message).toBe("No users found for this show");
+    })
+
+    it("PUT /shows/:id/available", async () => {
+        const responseOne = await request(app).put(`/shows/4/available`)
+        // console.log(responseOne.body)
+        expect(responseOne.status).toBe(200); 
+        expect(responseOne.body.message).toBe("Show 4 availability updated successfully to true");
+
+        const responseTwo = await request(app).put(`/shows/5/available`)
+        expect(responseTwo.status).toBe(200); 
+        expect(responseTwo.body.message).toBe("Show 5 availability updated successfully to false");
     })
 });
