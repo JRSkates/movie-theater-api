@@ -147,4 +147,14 @@ describe("Shows endpoint", () => {
         expect(responseTwo.status).toBe(200); 
         expect(responseTwo.body.message).toBe("Show 5 availability updated successfully to false");
     })
+
+    it("DELETE /shows/:id", async () => {
+        const response = await request(app).delete(`/shows/6`)
+
+        expect(response.status).toBe(200); 
+        expect(response.body.message).toBe("Show deleted successfully");
+
+        const deletedShow = await Show.findByPk(6)
+        expect(deletedShow).toBeNull();
+    })
 });

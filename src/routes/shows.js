@@ -44,4 +44,12 @@ showsRouter.put('/:showId/available', async (req, res) => {
     res.status(200).json({ message: `Show ${showId} availability updated successfully to ${updatedShow.available}`, updatedShow });
 });
 
+showsRouter.delete('/:id', async (req, res) => {
+    const show = await Show.findByPk(req.params.id);
+    if (!show) return res.status(404).json({ message: 'Show not found' });
+
+    await show.destroy();
+    res.status(200).json({ message: 'Show deleted successfully' });
+});
+
 module.exports = showsRouter;
