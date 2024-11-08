@@ -1,4 +1,4 @@
-const Show = require('./Show')
+const Show = require('./show')
 const User = require('./user')
 
 Show.belongsToMany(User, { through: 'watched' })
