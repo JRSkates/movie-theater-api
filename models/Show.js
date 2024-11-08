@@ -7,7 +7,9 @@ const Show = db.define('shows', {
   genre: DataTypes.STRING,
   rating: DataTypes.INTEGER,
   available: DataTypes.BOOLEAN
-})
+},
+  { db, modelName: 'Show' }
+)
 
 // exports
 module.exports = Show

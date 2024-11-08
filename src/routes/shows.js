@@ -5,8 +5,13 @@ const Show = require('../../models/show');
 const { check, validationResult } = require('express-validator');
 
 showsRouter.get('/', async (req, res) => {
-    const shows = await Show.findAll();
-    res.json(shows); 
+    if (req.query.genre) {
+      const shows = await Show.findAll({ where: { genre: req.query.genre } })
+      res.status(200).json(shows)
+    } else {
+      const shows = await Show.findAll()
+      res.status(200).json(shows)
+    }
 })
 
 showsRouter.get('/:id', async (req, res) => {

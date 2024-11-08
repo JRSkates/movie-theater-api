@@ -157,4 +157,12 @@ describe("Shows endpoint", () => {
         const deletedShow = await Show.findByPk(6)
         expect(deletedShow).toBeNull();
     })
+
+    it("GET /shows/:genre", async () => {
+        const response = await request(app).get('/shows?genre=Fantasy')
+        console.log(response.body)
+        expect(response.status).toBe(200);
+        expect(response.body.length).toBe(2)
+        expect(response.body[0].genre).toBe('Fantasy');
+    })
 });
